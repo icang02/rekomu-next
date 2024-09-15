@@ -9,7 +9,7 @@ import { PiInstagramLogoFill } from "react-icons/pi";
 export default async function ProductDetail({ params }) {
   let product = null;
   try {
-    let response = await axios.get(`http://rekomu2.test/api/product/${params.slug}`);
+    let response = await axios.get(`${process.env.APIURL}/api/product/${params.slug}`);
     product = response.data.data.item;
   } catch (error) {
     console.log(error);
