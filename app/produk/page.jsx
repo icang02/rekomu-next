@@ -56,7 +56,7 @@ export default async function Product() {
                       <div className="font-opensans w-full bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 duration-300">
                         <Link href={`/produk/${item.slug}`}>
                           <img
-                            src={`http://rekomu2.test/storage/${item.image}`}
+                            src={`${process.env.APIURL}/storage/${item.image}`}
                             alt="Product"
                             className="w-full h-44 object-cover"
                           />

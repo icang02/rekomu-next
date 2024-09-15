@@ -31,7 +31,7 @@ export default async function ProductDetail({ params }) {
           ) : (
             <>
               <div className="col-span-5">
-                <img src={`http://rekomu2.test/storage/${product.image}`} alt="img" className="w-full rounded aspect-square object-cover object-center" />
+                <img src={`${process.env.APIURL}/storage/${product.image}`} alt="img" className="w-full rounded aspect-square object-cover object-center" />
               </div>
               <div className="col-span-7">
                 <h6 className="font-bold text-2xl font-poppins">{product.name}</h6>
