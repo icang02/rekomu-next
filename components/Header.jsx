@@ -86,7 +86,7 @@ export default function Header() {
             </Link>
           </div> */}
           <div>
-            <Link href="/login" className={`inline-flex items-center gap-2 font-bold p-[15px] hover:text-acsent duration-200 ease-linear text-white`}>
+            <Link href="/auth/login" className={`inline-flex items-center gap-2 font-bold p-[15px] hover:text-acsent duration-200 ease-linear text-white`}>
               <BiLogIn className='text-lg' /> Login
             </Link>
           </div>
