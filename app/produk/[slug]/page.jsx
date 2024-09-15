@@ -1,8 +1,8 @@
-import BtnPrimary from "@/components/BtnPrimary";
+import AddCart from "@/components/form/AddCart";
 import HeroImage from "@/components/HeroImage"
 import formatRupiah from "@/utils/formatRupiah";
 import axios from "axios"
-import { FaExclamationTriangle, FaFacebookF, FaShoppingCart, FaStar, FaTwitter } from "react-icons/fa";
+import { FaExclamationTriangle, FaFacebookF, FaStar, FaTwitter } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
 import { PiInstagramLogoFill } from "react-icons/pi";
 
@@ -50,12 +50,7 @@ export default async function ProductDetail({ params }) {
                     <span className="text-gray-600 text-lg">&nbsp;({product.average_rating ? product.average_rating.toFixed(1) : '0.0'})</span>
                   </div>
                 </div>
-                <form className="mt-6">
-                  <input type="number" min={1} className="w-full sm:w-40 block border border-gray-300 outline-none px-3 py-2.5 rounded" placeholder="0" required />
-                  <div className="mt-4">
-                    <BtnPrimary label={<span className="flex items-center gap-2 text-base"><FaShoppingCart /> Add to Cart</span>} />
-                  </div>
-                </form>
+                <AddCart product={product} APIURL={process.env.APIURL} />
                 <p className="mt-3">
                   <span className="font-bold text-sm text-gray-600">Kategori: </span>
                   <span className="text-gray-500 text-sm">{product.category.name}</span>

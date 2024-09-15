@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import "./globals.css";
 import { Toaster } from 'react-hot-toast';
 import 'react-loading-skeleton/dist/skeleton.css';
+import NextTopLoader from "nextjs-toploader";
 
 export const metadata = {
   title: "rekomU",
@@ -14,6 +15,11 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className="font-opensans">
         <Toaster />
+        <NextTopLoader
+          color="#F28123"
+          height={1}
+          showSpinner={false}
+        />
         <Header />
         {children}
         <Footer />
