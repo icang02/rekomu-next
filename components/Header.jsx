@@ -3,6 +3,7 @@ import Link from "next/link";
 import { BiLogIn } from 'react-icons/bi';
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 const navItem = [
   {
@@ -20,8 +21,7 @@ const navItem = [
 
 export default function Header() {
   const [scroll, setScroll] = useState(false);
-  // const { pathname } = useRouter();
-  const pathname = '/';
+  const pathname = usePathname();
 
   const isActive = (href) => {
     if (href === '/') {

@@ -1,38 +1,17 @@
-'use client'
 import axios from "axios";
 import Link from "next/link";
-import { FaEye, FaStar } from "react-icons/fa";
+import { FaExclamationTriangle, FaEye, FaStar } from "react-icons/fa";
 import HeroImage from "@/components/HeroImage";
 import formatRupiah from "@/utils/formatRupiah";
-import { useEffect, useState } from "react";
-import SkeleteonCardProduct from "@/components/skeleton/SkeletonCardProduct";
 
-export default function Product() {
-  const [search, setSearch] = useState('');
-  const [categoryState, setCategory] = useState('');
-  const [categories, setCategories] = useState([]);
-  const [products, setProducts] = useState([]);
-
-  const onChangeSearch = (e) => {
-    setSearch(e.target.value);
+export default async function Product() {
+  let products = null;
+  try {
+    let response = await axios.get(`http://rekomu2.test/api/product`);
+    products = response.data.data.products.data;
+  } catch (error) {
+    console.log(error);
   }
-
-  const clickCategory = (category) => {
-    setCategory(category);
-  }
-
-  useEffect(() => {
-    setTimeout(() => {
-      axios.get('http://rekomu2.test/api/products')
-        .then(response => {
-          setProducts(response.data.data.products.data);
-          setCategories(response.data.data.categories);
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    }, 1000);
-  }, []);
 
   return (
     <>
@@ -44,8 +23,6 @@ export default function Product() {
           <form className="flex border border-gray-300 rounded-lg overflow-hidden duration-200 focus-within:shadow-[0_0_10px_rgba(242,129,35,0.7)]">
             <input
               type="text"
-              value={search}
-              onChange={() => onChangeSearch()}
               className="px-4 py-2 w-[380px] focus:outline-none focus:ring-2 focus:ring-acsent transition-all duration-200"
               placeholder="Cari produk..."
             />
@@ -61,23 +38,22 @@ export default function Product() {
 
         {/* List Produk */}
         <div className="grid grid-cols-12 gap-8">
-          <div className="col-span-8">
-            <div className="grid grid-cols-12 gap-x-4 gap-y-6">
-              {products.length == 0 ? (
-                Array.from({ length: 6 }).map((_, index) => (
-                  <div key={index} className="col-span-4">
-                    <SkeleteonCardProduct />
-                  </div>
-                ))
-              ) : search.length >= 0 && products.length == 0 ? (
-                <p className="col-span-12 text-center text-gray-500">No products found.</p>
-              ) : (
-                products.map((item, index) => (
+          {products == null ? (
+            <div className="col-span-12 text-center">
+              <div className="flex flex-col items-center justify-center">
+                <FaExclamationTriangle className="text-red-600 text-6xl mb-4" />
+                <p className="text-red-600 text-base font-semibold">Error: Failed to load product data.</p>
+              </div>
+            </div>
+          ) : (
+            <div className="col-span-8">
+              <div className="grid grid-cols-12 gap-x-4 gap-y-6">
+                {products.map((item, index) => (
                   <div key={index} className="col-span-4">
                     <div className="font-opensans w-full bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 duration-300">
-                      <Link href={`/produk/${item.slug}/show`}>
+                      <Link href={`/produk/${item.slug}`}>
                         <img
-                          src={`${'http://rekomu2.test'}/storage/${item.image}`}
+                          src={`http://rekomu2.test/storage/${item.image}`}
                           alt="Product"
                           className="w-full h-44 object-cover"
                         />
@@ -106,7 +82,7 @@ export default function Product() {
                         <div className="flex items-center gap-[1px] mb-3 text-xs">
                           {[...Array(5)].map((_, i) => {
                             if (i < Math.floor(item.average_rating)) {
-                              return <FaStar className="text-acsent" key={i} />
+                              return <FaStar className="text-[#F28123]" key={i} />
                             } else {
                               return <FaStar className="text-gray-500" key={i} />
                             }
@@ -115,18 +91,18 @@ export default function Product() {
                         </div>
 
                         {/* Tombol */}
-                        <Link href={`/produk/${item.slug}/show`} className="text-gray-600 font-bold text-sm hover:text-acsent duration-200">
+                        <Link href={`/produk/${item.slug}`} className="text-gray-600 font-bold text-sm hover:text-[#F28123] duration-200">
                           Selengkapnya
                         </Link>
                       </div>
                     </div>
                   </div>
-                ))
-              )}
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
-          <div className="col-span-3">
+          {/* <div className="col-span-3">
             <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-5">
               <h4 className="text-xl font-bold mb-4">Kategori</h4>
               <ul>
@@ -151,7 +127,7 @@ export default function Product() {
                 ))}
               </ul>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
